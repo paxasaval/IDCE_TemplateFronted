@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Button } from 'antd';
 
 export default function Home() {
   return (
@@ -95,6 +96,9 @@ export default function Home() {
           />
           Go to nextjs.org →
         </a>
+        <div className="App">
+    <Button type="primary">Button</Button>
+  </div>
       </footer>
     </div>
   );
