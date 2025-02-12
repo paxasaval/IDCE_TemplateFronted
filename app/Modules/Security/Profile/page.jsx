@@ -5,6 +5,7 @@ const ProfilePage= ()=> {
   return (
     <div>
       <p>Perfiles</p>
+      
     </div>
   );
 };

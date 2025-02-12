@@ -49,7 +49,17 @@ const SideBar = () => {
           {
             key: "3",
             icon: <LockOutlined />,
-            label: <Link href={`/Modules/Security`}>Seguridad</Link>,
+            label: "Seguridad",
+            children: [
+              {
+                label: <Link href={`/Modules/Security/Profile`}>Perfiles</Link>,
+                key: `Perfiles`,
+              },
+              {
+                label: <Link href={`/Modules/Security/Users`}>Usuarios</Link>,
+                key: `Usuarios`,
+              },
+            ],
           },
         ]}
       />
