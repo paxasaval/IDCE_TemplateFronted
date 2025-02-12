@@ -1,41 +1,59 @@
-import React from 'react';
+"use client";
+import React from "react";
 import { Avatar, Menu } from "antd";
-import { UserOutlined } from '@ant-design/icons';
-const SideBar= ()=> {
+import { LockOutlined, ShoppingOutlined, UserOutlined } from "@ant-design/icons";
+import Link from "next/link";
+import useUser from "../Hooks/useUser";
+const SideBar = () => {
+  const { users, isLoading, error } = useUser();
+
+  if (isLoading)
+    return (
+      <p className="row-span-9 row-start-2 w-full">Cargando usuarios...</p>
+    );
+  if (error) return <p className="row-span-9 row-start-2 w-full">{error}</p>;
+
+  const userMenuSubItems = users.map((user) => ({
+    label: (
+      <Link href={`/Modules/Admin/Users/${user.empleadoID}`}>
+        {user.nombre}
+      </Link>
+    ),
+    key: `user-${user.empleadoID}`,
+  }));
+
+  //console.log('Usuarios en el componente:', users);
   return (
-    <div className='bg-neutral-50 w-1/4 h-screen'>
+    <div className="row-span-9 row-start-2 w-full bg-neutral-50 overflow-y-auto overflow-x-hidden">
       <Menu
         mode="inline"
-        defaultSelectedKeys={['1']}
+        defaultSelectedKeys={["1"]}
         items={[
           {
-            key: 'Modules/Admin',
+            key: "Modules/Admin",
             icon: <UserOutlined />,
-            label: 'Administrador',
+            label: "Administrador",
+            children: userMenuSubItems,
+          },
+          {
+            key: "2",
+            icon: <ShoppingOutlined />,
+            label: "Menus",
             children: [
-                {
-                  label: 'Option 1',
-                  key: 'Perfiles',
-                },
-                {
-                  label: 'Option 2',
-                  key: 'setting:2',
-                },
-            ]
+              {
+                label: <Link href={`/Modules/Productos`}>Productos</Link>,
+                key: `test`,
+              },
+            ],
           },
           {
-            key: '2',
-            icon: <UserOutlined />,
-            label: 'nav 2',
-          },
-          {
-            key: '3',
-            icon: <UserOutlined />,
-            label: 'nav 3',
+            key: "3",
+            icon: <LockOutlined />,
+            label: <Link href={`/Modules/Security`}>Seguridad</Link>,
           },
         ]}
       />
     </div>
   );
 };
-export default SideBar
+export default SideBar;
