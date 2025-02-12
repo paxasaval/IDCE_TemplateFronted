@@ -5,8 +5,7 @@ import SideBar from './Shared/SideBar';
 const Home= ()=> {
   return (
     <div>
-      <Header></Header>
-      <SideBar></SideBar>
+      <p>HomePage</p>
     </div>
   );
 };

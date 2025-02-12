@@ -1,11 +1,11 @@
 import React from 'react';
 import Header from '../../Shared/Header';
 
-const AdminPage= ()=> {
+const ProductsPage= ()=> {
   return (
     <div>
-      <p>AdminPage</p>
+      <p>Productos</p>
     </div>
   );
 };      
-export default AdminPage
+export default ProductsPage

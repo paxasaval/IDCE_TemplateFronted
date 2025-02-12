@@ -1,11 +1,11 @@
 import React from 'react';
 import Header from '../../Shared/Header';
 
-const AdminPage= ()=> {
+const SecurityPage= ()=> {
   return (
     <div>
-      <p>AdminPage</p>
+      <p>Seguridad</p>
     </div>
   );
 };      
-export default AdminPage
+export default SecurityPage

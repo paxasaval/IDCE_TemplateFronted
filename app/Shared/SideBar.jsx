@@ -9,13 +9,13 @@ const SideBar= ()=> {
         defaultSelectedKeys={['1']}
         items={[
           {
-            key: '1',
+            key: 'Modules/Admin',
             icon: <UserOutlined />,
-            label: 'nav 1',
+            label: 'Administrador',
             children: [
                 {
                   label: 'Option 1',
-                  key: 'setting:1',
+                  key: 'Perfiles',
                 },
                 {
                   label: 'Option 2',
