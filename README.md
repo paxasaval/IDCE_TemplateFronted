@@ -38,7 +38,12 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 ## Estructura de directorios de la aplicación
 Estructura de directorios de la aplicación
 ```
+Estructura de directorios de la aplicación
+
 app/
+├──global.css --------> (Aqui van las estilos globales de la aplicacion)
+├──layout.js --------> (Este es el componente principal de la aplicacion, se encarga de envolver los modulos de la aplicacion, aqui se suele colocar los providers de React)
+├──page.js --------> (Esta es una pagina de inicio/login de la aplicacion)
 ├── hooks/--------> (aqui van los custom hooks usados para manejar el estado de la aplicación y la logica de negocio)
 │   ├── useAddUser.js
 │   ├── useEditUser.js
