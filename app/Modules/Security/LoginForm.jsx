@@ -12,7 +12,7 @@ const LoginForm = () => {
 
     if (values.username === "admin" && values.password === "123") {
         message.success("Login successful!");
-        router.push("/Modules/layout"); // Redirige a layout.jsx
+        router.push("/Modules"); // Redirige a layout.jsx
       } else {
         message.error("Invalid username or password");
       }

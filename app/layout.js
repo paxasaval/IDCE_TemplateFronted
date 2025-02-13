@@ -7,12 +7,8 @@ import SideBar from "./Shared/SideBar";
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
-        <Header></Header>
-        <div className="flex">
-        <SideBar></SideBar>
-        <AntdRegistry>{children}</AntdRegistry>
-        </div>
+      <body>       
+        <AntdRegistry>{children}</AntdRegistry>        
       </body>
     </html>
   );
