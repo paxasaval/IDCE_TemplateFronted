@@ -1,5 +1,5 @@
 "use client"
-import {getAllUser} from '../Services/userService';
+import userService from '../Services/userService';
 import { useState, useEffect } from 'react';
 
 export const useUsers = () => {
@@ -11,7 +11,7 @@ export const useUsers = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const data = await getAllUser(); 
+        const data = await userService.getAllUser(); 
         setUsers(data);
       } catch (err) {
         setError('Error al cargar los usuarios');
@@ -28,6 +28,6 @@ export const useUsers = () => {
         //console.log('Usuarios actualizados:', users);
       }, [users]);
   
-    return { users, isLoading, error };
+    return { users, isLoading, error, fetchUsers };
   };
   export default useUsers; 

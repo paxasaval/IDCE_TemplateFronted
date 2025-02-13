@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { getUserID } from '../Services/userService';
+import userService from '../Services/userService';
 
 export const useLogginUser = () => {
     const [user, setUser] = useState(null);
@@ -11,7 +11,7 @@ export const useLogginUser = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const data = await getUserID(1); // Asegúrate de que el ID se obtiene correctamente
+        const data = await userService.getUserID(1); // Asegúrate de que el ID se obtiene correctamente
         setUser(data);
       } catch (err) {
         setError('Error al cargar el usuario');
