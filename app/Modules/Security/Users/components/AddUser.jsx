@@ -18,7 +18,7 @@ const AddUser = ({ isVisible, onClose, onUserAdded }) => {
       email: values.userEmail,
     };
     try {
-        await userService.postUser(newUser);
+        await addUser(newUser);
         message.success("Usuario creado con éxito");
         onUserAdded(); // Recargar usuarios
         onClose(); // Cerrar modal

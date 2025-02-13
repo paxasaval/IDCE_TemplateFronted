@@ -1,8 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Button, Table } from "antd";
-import { PlusCircleOutlined } from "@ant-design/icons";
-import { title } from "process";
+import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import useUsers from "../../../Hooks/useUser";
 import AddUser from "./components/addUser";
 const UsersPage = () => {
@@ -28,6 +27,20 @@ const UsersPage = () => {
       dataIndex: "email",
       key: "email",
     },
+    {
+      title: "Acciones",
+      key: "actions",
+      render: (user) => (
+        <div className="actions flex gap-2">
+          <Button type="primary" icon={<EditOutlined />} onClick={() => showModal(user)}>
+            Editar
+          </Button>
+          <Button color="danger" variant="solid" icon={<DeleteOutlined />} onClick={() => showModal(user)}>
+            Eliminar
+          </Button>
+        </div>
+      ),
+    }
   ];
   const { users, isLoading, error, fetchUsers } = useUsers();
   var dataSource = [];
@@ -36,7 +49,7 @@ const UsersPage = () => {
     dataSource = users.map((user) => ({
       key: user.empleadoID,
       id: user.empleadoID,
-      name: user.nombre,
+      name: user.apellidos +" "+user.nombres,
       address: user.direccion,
       email: user.email,
     }));
