@@ -1,0 +1,51 @@
+IDCE_TemplateFronted/
+├── .next/ ----------------------> (Carpeta generada automáticamente por Next.js con archivos de compilación y caché)
+│   ├── cache/ -----------------> (Almacena archivos en caché para mejorar el rendimiento)
+│   ├── server/ ----------------> (Contiene archivos optimizados para el backend en producción)
+│
+├── node_modules/ ---------------> (Carpeta con dependencias instaladas mediante npm o yarn)
+│   ├── .bin/ ------------------> (Archivos binarios de ejecución de paquetes)
+│   ├── @ant-design/ -----------> (Dependencia de la librería Ant Design para UI)
+│
+├── app/ ------------------------> (Carpeta principal donde se estructura la aplicación)
+│   ├── global.css -------------> (Estilos globales de la aplicación)
+│   ├── layout.js --------------> (Componente principal que envuelve los módulos de la aplicación, aquí suelen ir los providers de React)
+│   ├── homePage.jsx -----------> (Página principal de la aplicación)
+│   │
+│   ├── Hooks/ ------------------> (Carpeta para hooks personalizados)
+│   │   ├── useUser.jsx --------> (Hook personalizado para manejar la autenticación o los datos del usuario)
+│   │
+│   ├── Services/ ---------------> (Carpeta para la gestión de servicios y API)
+│   │   ├── ApiRest.js ---------> (Archivo donde se configuran las peticiones a la API REST)
+│   │
+│   ├── Modules/ ----------------> (Carpeta donde se encuentran los módulos de la aplicación)
+│   │   ├── layout.jsx ---------> (Componente que define la estructura general de las páginas)
+│   │   ├── page.jsx -----------> (Página principal de los módulos)
+│   │   ├── Admin/ -------------> (Módulos administrativos)
+│   │   │   ├── Profiles/ ------> (Módulo de perfiles de usuario)
+│   │   │   │   ├── page.jsx --> (Página de administración de perfiles)
+│   │   │   ├── Productos/ -----> (Módulo de productos)
+│   │   │       ├── page.jsx --> (Página de administración de productos)
+│   │   │
+│   │   ├── Security/ ----------> (Módulo de seguridad)
+│   │   │   ├── LoginForm.jsx --> (Formulario de inicio de sesión)
+│   │   │   ├── Users/ ---------> (Submódulo para gestionar usuarios)
+│   │   │       ├── page.jsx ---> (Página de gestión de usuarios)
+│   │
+│   ├── Shared/ -----------------> (Componentes reutilizables en toda la aplicación)
+│       ├── header.jsx ---------> (Componente de la barra de navegación superior)
+│       ├── SliderBar.jsx ------> (Componente para la barra lateral de navegación)
+│
+├── public/ ---------------------> (Carpeta donde se almacenan archivos estáticos)
+│   ├── assets/ ----------------> (Carpeta de recursos estáticos)
+│   │   ├── images/ ------------> (Imágenes utilizadas en la aplicación)
+│   │   │   ├── homePage/ -----> (Imágenes para la página de inicio)
+│   │   │   │   ├── bienvenido.gif --> (GIF de bienvenida en la página principal)
+│   │   ├── datatable/ ---------> (Archivos relacionados con tablas de datos)
+│   │       ├── datatable.js ---> (Archivo JS relacionado con la gestión de datatables)
+│
+├── .env ------------------------> (Archivo de variables de entorno para credenciales y configuraciones sensibles)
+├── .gitignore ------------------> (Lista de archivos y carpetas que Git debe ignorar)
+├── jsconfig.json ---------------> (Configuración para facilitar importaciones en un proyecto JavaScript)
+├── package-lock.json -----------> (Archivo generado automáticamente que registra las versiones exactas de las dependencias)
+├── package.json ----------------> (Archivo de configuración del proyecto con dependencias y scripts de ejecución)
