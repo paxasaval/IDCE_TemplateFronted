@@ -39,41 +39,41 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 Estructura de directorios de la aplicación
 ```
 Estructura de directorios de la aplicación
-
 app/
-├──global.css --------> (Aqui van las estilos globales de la aplicacion)
-├──layout.js --------> (Este es el componente principal de la aplicacion, se encarga de envolver los modulos de la aplicacion, aqui se suele colocar los providers de React)
-├──page.js --------> (Esta es una pagina de inicio/login de la aplicacion)
-├── hooks/--------> (aqui van los custom hooks usados para manejar el estado de la aplicación y la logica de negocio)
+├── global.css               # Estilos globales de la aplicación
+├── layout.js                # Componente principal que envuelve los módulos y contiene los providers de React
+├── page.js                  # Página de inicio/login de la aplicación
+├── hooks/                   # Custom hooks para manejar el estado y la lógica de negocio
 │   ├── useAddUser.js
 │   ├── useEditUser.js
 │   ├── useUser.js
-│   ├── useLogginUser.js    
-│   └── useSelectedUser.js  --------> (Este es un context de React, se usa para compartir datos entre componentes sin tener que pasarlos como props)
-├── Modules/ --------> (Aqui van los Modulos de la aplicacion, cada uno de ellos tiene su propio directorio)
-│   ├── layout.jsx --------> (Este es el componente principal de la aplicacion una vez estas logeado, se encarga de renderizar el header y el sidebar y cargar todos los modulos como sus hijos/children)
-│   ├── page.jsx --------> (Esta es una pagina de bienvenida/home de cuando has logeado en la aplicacion)
-│   ├── Security/ --------> (Este es el modulo de seguridad, contiene los Menus/Paginas de usuarios y perfiles)
-│   │   ├── Profile/ --------> (Este es el Menu de perfiles, contiene la ui del menu perfiles)
-│   │   │   └── page.jsx --------> (Este es el componente principal del menu/pagina de perfiles)
-│   │   ├── Users/ --------> (Este es el Menu de usuarios, contiene la ui del menu usuarios)
-│   │   │   ├── page.jsx --------> (Este es el componente principal del menu/pagina de Usuarios)
-│   │   │   ├── components/ --------> (Aqui van los componentes (adicionales) de usuarios, como el modal de añadir usuarios)
-│   │   │   │   ├── AddUser.jsx --------> (Este es el componente modal de añadir usuarios)
-│   │   │   │   └── EditUser.jsx --------> (Este es el componente modal de editar un usuario)
-│   ├── Admin/ --------> (Este es el modulo de Administracion, contiene los Menus/Paginas de Administracion)
-│   │   ├── Users/ --------> (Este es el menu/pagina de Usuarios)
-│   │   │   ├── page.jsx --------> (Este es el componente principal del menu/pagina de usuarios)
-│   │   │   ├── [id]/ --------> (Este es un componente dinamico que muestra los detalles del usuario)
-│   │   │   │   └── page.jsx --------> (Este es el componente principal del componente dinamico)
+│   ├── useLogginUser.js
+│   └── useSelectedUser.js   # Context de React para compartir datos entre componentes sin pasarlos como props
+├── modules/                 # Módulos de la aplicación, cada uno con su propio directorio
+│   ├── layout.jsx           # Componente principal post-login que renderiza el header, sidebar y carga los módulos hijos
+│   ├── page.jsx             # Página de bienvenida/home tras el login
+│   ├── Security/            # Módulo de seguridad con menús/páginas de usuarios y perfiles
+│   │   ├── Profile/         # Menú de perfiles con su interfaz de usuario
+│   │   │   └── page.jsx     # Componente principal de la página de perfiles
+│   │   ├── Users/           # Menú de usuarios con su interfaz de usuario
+│   │   │   ├── page.jsx     # Componente principal de la página de usuarios
+│   │   │   ├── components/  # Componentes adicionales de usuarios, como modales
+│   │   │   │   ├── AddUser.jsx  # Modal para añadir usuarios
+│   │   │   │   └── EditUser.jsx # Modal para editar un usuario
+│   ├── Admin/               # Módulo de administración con menús/páginas correspondientes
+│   │   ├── Users/           # Menú/página de usuarios
+│   │   │   ├── page.jsx     # Componente principal de la página de usuarios
+│   │   │   ├── [id]/        # Componente dinámico para mostrar detalles del usuario
+│   │   │   │   └── page.jsx # Componente principal del componente dinámico
 ├── services/
-│   └── userService.js --------> (Este es el servicio de usuarios, se encarga de realizar la conexion/comunicacion con la api/backend )
-├── utilities/ --------> (Aqui van las utilidades que se usan en la aplicacion, como el formatter)
-│   └── formatter.js 
-├── shared/ --------> (Aqui van los componente que se usan en varios modulos de la aplicacion ejej: header, sidebar, etc)
-│   ├── header.js --------> (Este es el componente de header, se encarga de renderizar el header de la aplicacion)
-│   └── sidebar.js --------> (Este es el componente de sidebar, se encarga de renderizar el sidebar de la aplicacion)
-public/ --------> (Aqui van los archivos estáticos de la aplicacion, como el logo, favicon, etc)
+│   └── userService.js       # Servicio de usuarios para la comunicación con la API/backend
+├── utilities/               # Utilidades usadas en la aplicación, como formateadores
+│   └── formatter.js         # Utilidad para formatear datos como nombres y rutas con 'ñ'
+├── shared/                  # Componentes compartidos entre varios módulos, e.g., header, sidebar
+│   ├── header.js            # Componente del header de la aplicación
+│   └── sidebar.js           # Componente del sidebar de la aplicación
+public/                      # Archivos estáticos de la aplicación, como logos y favicon
 ├── assets/
 │   └── logo.png
+
 ```
