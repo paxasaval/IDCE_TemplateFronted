@@ -10,6 +10,24 @@ import Link from "next/link";
 import useModulos from "../Hooks/useModulos";
 import menuService from "../Services/menuService";
 import formatter from "../utilities/formatter";
+import { faBuilding, faBriefcase, faIndent, faList, faShield, faIdCard, faUserSecret, faUserPlus, faListAlt } from '@fortawesome/free-solid-svg-icons';
+import { faProductHunt } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { icon } from "@fortawesome/fontawesome-svg-core";
+
+const iconMapping = {
+  'fa fa-building': faBuilding,
+  'fa fa-briefcase': faBriefcase,
+  'fa fa-product-hunt': faProductHunt,
+  'fa fa-indent': faIndent,
+  'fa fa-list': faList,
+  'fa fa-shield': faShield,
+  'fa fa-id-card-o': faIdCard,
+  'fa fa-user-secret': faUserSecret,  
+  'fa fa-user-plus': faUserPlus,  
+  'fa fa-list-alt': faListAlt,
+};
+
 const SideBar = () => {
   const { modulos, isLoading, error } = useModulos();
   const [menus, setMenus] = useState({});
@@ -62,6 +80,7 @@ const SideBar = () => {
         ) : (
           moduloMenus.map((menu) => ({
             key: `${menu.captionMenu}`,
+            icon: <FontAwesomeIcon icon={iconMapping[menu.imagen]} />,
             label: (<Link href={`/Modules/${modulo.nombre}/${formatter.normalizeText(menu.captionMenu)}`}>{menu.captionMenu}</Link>),
           }))
         ),

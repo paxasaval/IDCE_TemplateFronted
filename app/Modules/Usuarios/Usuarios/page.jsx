@@ -4,6 +4,7 @@ import { Button, Table } from "antd";
 import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import useUsers from "../../../Hooks/useUser";
 import AddUser from "./components/AddUser";
+import formatter from "../../../utilities/formatter";
 const UsersPage = () => {
   //Table data
   const columns = [
@@ -49,7 +50,7 @@ const UsersPage = () => {
     dataSource = users.map((user) => ({
       key: user.empleadoID,
       id: user.empleadoID,
-      name: user.apellidos +" "+user.nombres,
+      name: formatter.capitalize(`${user.nombres} ${user.apellidos}`),
       address: user.direccion,
       email: user.email,
     }));
