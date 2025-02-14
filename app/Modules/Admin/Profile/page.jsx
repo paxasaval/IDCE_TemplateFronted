@@ -20,9 +20,13 @@ const ProfilePage = () => {
   return (
     <div>
       <h2>Perfil del Empleado</h2>
-      <p><strong>Nombre:</strong> {empleado.nombre}</p>
+      <p><strong>Identificacion:</strong> {empleado.identificacion}</p>
+      <p><strong>Nombre:</strong> {empleado.nombres}</p>
+      <p><strong>Apellidos:</strong> {empleado.apellidos}</p>
       <p><strong>Dirección:</strong> {empleado.direccion}</p>
+      <p><strong>Fecha de Ingreso:</strong> {empleado.fechaIngreso}</p>
       <p><strong>Email:</strong> {empleado.email}</p>
+      <p><strong>Telefono:</strong> {empleado.telefono}</p>
     </div>
   );
 };
