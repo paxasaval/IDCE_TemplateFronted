@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button, Table } from "antd";
 import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import useUsers from "../../../Hooks/useUser";
-import AddUser from "./components/addUser";
+import AddUser from "./components/AddUser";
 const UsersPage = () => {
   //Table data
   const columns = [

@@ -8,8 +8,8 @@ import {
 } from "@ant-design/icons";
 import Link from "next/link";
 import useModulos from "../Hooks/useModulos";
-import useMenu from "../Hooks/useMenu";
 import menuService from "../Services/menuService";
+import formatter from "../utilities/formatter";
 const SideBar = () => {
   const { modulos, isLoading, error } = useModulos();
   const [menus, setMenus] = useState({});
@@ -62,7 +62,7 @@ const SideBar = () => {
         ) : (
           moduloMenus.map((menu) => ({
             key: `${menu.captionMenu}`,
-            label: (<Link href={`Modules/${modulo.nombre}/${menu.captionMenu}`}>{menu.captionMenu}</Link>),
+            label: (<Link href={`/Modules/${modulo.nombre}/${formatter.normalizeText(menu.captionMenu)}`}>{menu.captionMenu}</Link>),
           }))
         ),
     };

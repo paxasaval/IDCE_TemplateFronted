@@ -45,7 +45,7 @@ const Header = () => {
         <Dropdown menu={{ items }}>
           <Space>
             <div className="userInfo flex flex-col justify-center items-center">
-              <span className="text-white capitalize">{selectedUser ? selectedUser.nombre.toLowerCase() : "Cargando..."}</span>
+              <span className="text-white capitalize">{selectedUser ? (`${selectedUser.apellidos} ${selectedUser.nombres}`).toLowerCase() : "Cargando..."}</span>
               <span className="text-xs italic text-white">{selectedUser ? selectedUser.email : "Invitado"}</span>
             </div>
             <DownOutlined />

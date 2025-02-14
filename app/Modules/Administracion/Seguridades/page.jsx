@@ -1,12 +1,11 @@
 import React from 'react';
 import Header from '../../../Shared/Header';
 
-const ProfilePage= ()=> {
+const SeguridadesPage= ()=> {
   return (
     <div>
-      <p>Perfiles</p>
-      
+      <p>Seguridades</p>
     </div>
   );
-};
-export default ProfilePage
+};      
+export default SeguridadesPage  

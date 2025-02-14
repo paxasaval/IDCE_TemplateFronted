@@ -4,6 +4,7 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 import Header from "./Shared/Header";
 import SideBar from "./Shared/SideBar";
 import { SelectedUserProvider } from "./Hooks/useSelectedUser";
+import "devextreme/dist/css/dx.light.css";
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
