@@ -8,13 +8,13 @@ const LoginForm = () => {
   const router = useRouter(); // Inicializamos useRouter
 
   const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+    // console.log('Received values of form: ', values);
 
     if (values.username === "admin" && values.password === "123") {
         message.success("Login successful!");
         router.push("/Modules"); // Redirige a layout.jsx
       } else {
-        message.error("Invalid username or password");
+        message.error("Usuario o contraseña incorrectos");
       }
   };
 

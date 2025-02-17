@@ -17,7 +17,7 @@ const useUser = () => {
         setError("La respuesta está vacía o nula");
         return;
       }
-      // console.log("RESPONSE EMPLOYED:", response.data);
+      console.log("RESPONSE EMPLOYED:", response.data);
       setEmpleados(response.data);
     } catch (err) {
       console.error("Error al obtener datos:", err);

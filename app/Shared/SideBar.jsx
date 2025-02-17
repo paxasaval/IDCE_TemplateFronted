@@ -1,99 +1,105 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Avatar, Menu } from "antd";
-import { UserOutlined } from "@ant-design/icons";
-import Link from "next/link";
+import { TreeView } from "devextreme-react/tree-view";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { ApiUrl } from "../Services/ApiRest";
 import useUser from "../Hooks/useUser";
+import "devextreme/dist/css/dx.light.css";
 
 const SideBar = () => {
   const { empleados } = useUser();
   const router = useRouter();
   const [modulos, setModulos] = useState([]);
-  const [menus, setMenus] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [loadingMenus, setLoadingMenus] = useState(false);
+  const [menus, setMenus] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // Cargar módulos
+  // Función para obtener la ruta personalizada
+  const getRutaPersonalizada = (moduloNombre, menuNombre) => {
+    const rutasPersonalizadas = {
+      "Compañía": "/Modules/Administracion/Compania",
+      "Productos": "/Modules/Administracion/Productos",
+      "Módulo-Menú": "/Modules/Administracion/ModuloMenu",
+      "Catalogos": "/Modules/Administracion/Catalogos",
+      "Seguridades": "/Modules/Administracion/Seguridades",
+      "Oficinas": "/Modules/Administracion/Oficinas",
+      
+      "AuditoriaSistema": "/Modules/Auditoria/AuditoriaSistema",
+      "Funcionarios": "/Modules/Usuarios/Funcionarios",
+      "Perfiles": "/Modules/Usuarios/Perfiles",
+      "Usuarios": "/Modules/Usuarios/Usuarios",
+
+    };
+
+    return rutasPersonalizadas[menuNombre] || 
+      // `/Modules/${moduloNombre}/${menuNombre.replace(/\s+/g, "").toLowerCase()}`;
+      `/Modules/${moduloNombre}/${menuNombre.replace(/\s+/g, "")}`;
+  };
+
   useEffect(() => {
-    const dataModules = async () => {
+    const fetchModulesAndMenus = async () => {
       try {
-        const response = await axios.get(`${ApiUrl}modulo`);
-        if (!response.data || response.data.length === 0) {
+        setLoading(true);
+
+        // Obtener módulos
+        const { data: modulosData } = await axios.get(`${ApiUrl}modulo`);
+        if (!modulosData || modulosData.length === 0) {
           throw new Error("La respuesta de módulos está vacía o nula");
         }
-        setModulos(response.data);
+        setModulos(modulosData);
+
+        // Obtener menús para cada módulo
+        const menuRequests = modulosData.map(async (modulo) => {
+          const { data: menusData } = await axios.get(`${ApiUrl}menu/${modulo.moduloID}`);
+
+          return menusData.map((menu) => ({
+            id: `${modulo.moduloID}-${menu.menuID}`, // ID único
+            name: menu.captionMenu,
+            parentId: modulo.moduloID,
+            path: getRutaPersonalizada(modulo.nombre, menu.captionMenu),
+          }));
+        });
+
+        const resolvedMenus = (await Promise.all(menuRequests)).flat();
+        setMenus(resolvedMenus);
       } catch (err) {
-        console.error("Error al obtener módulos:", err);
+        console.error("Error al obtener módulos y menús:", err);
         setError(err.message);
       } finally {
         setLoading(false);
       }
     };
-    dataModules();
+
+    fetchModulesAndMenus();
   }, []);
 
-  // Cargar menús por módulo
-  useEffect(() => {
-    const loadMenus = async () => {
-      setLoadingMenus(true);
-      try {
-        const menusData = {};
-        const requests = modulos.map(async (modulo) => {
-          const response = await axios.get(`${ApiUrl}menu/${modulo.moduloID}`);
-          menusData[modulo.moduloID] = response.data || [];
-        });
-        await Promise.all(requests);
-        setMenus(menusData);
-      } catch (err) {
-        console.error("Error al cargar los menús:", err);
-        setError(err.message);
-      } finally {
-        setLoadingMenus(false);
-      }
-    };
-    if (modulos.length > 0) {
-      loadMenus();
+  if (error) return <p className="text-red-500">Error: {error}</p>;
+
+  const handleItemClick = (e) => {
+    if (e.itemData.path) {
+      router.push(e.itemData.path);
     }
-  }, [modulos]);
-
-  if (loading) return <p className="row-span-9 row-start-2 w-full">Cargando módulos...</p>;
-  if (error) return <p className="row-span-9 row-start-2 w-full">{error}</p>;
-
-  const modulosItems = modulos.map((modulo) => {
-    const moduloMenus = menus[modulo.moduloID] || [];
-    return {
-      key: `Modules/${modulo.nombre}`,
-      icon: <UserOutlined />,
-      label: modulo.nombre,
-      children:
-        moduloMenus.length === 0
-          ? loadingMenus
-            ? [{ key: "loading", label: "Cargando menús..." }]
-            : []
-          : moduloMenus.map((menu) => ({
-              key: menu.captionMenu,
-              label: (
-                <Link
-                  href={`/Modules/${modulo.nombre}/${menu.captionMenu
-                    .normalize("NFD")
-                    .replace(/[̀-\u036f]/g, "")
-                    .replace(/ñ/g, "n")
-                    .replace(/\s+/g, "")}`}
-                >
-                  {menu.captionMenu}
-                </Link>
-              ),
-            })),
-    };
-  });
+  };
 
   return (
-    <div className="bg-neutral-50 w-1/4 h-screen">
-      <Menu mode="inline" defaultSelectedKeys={["1"]} items={modulosItems} />
+    <div className="bg-neutral-50 w-1/4 h-screen p-4">
+      {loading ? (
+        <p>Cargando módulos...</p>
+      ) : (
+        <TreeView
+          dataSource={[
+            ...modulos.map(m => ({ id: m.moduloID, name: m.nombre })), 
+            ...menus
+          ]}
+          dataStructure="plain"
+          keyExpr="id"
+          displayExpr="name"
+          parentIdExpr="parentId"
+          onItemClick={handleItemClick}
+          expandNodesRecursive={true}
+        />
+      )}
     </div>
   );
 };

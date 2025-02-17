@@ -3,6 +3,8 @@ import "./globals.css";
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import  Header  from "./Shared/Header";
 import SideBar from "./Shared/SideBar";
+import 'devextreme/dist/css/dx.light.css'; /* O usa dx.dark.css si prefieres el tema oscuro */
+
 
 export default function RootLayout({ children }) {
   return (
