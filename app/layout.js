@@ -4,7 +4,13 @@ import { SelectedUserProvider } from "./Hooks/useSelectedUser";
 import "devextreme/dist/css/dx.light.css";
 import "@fortawesome/fontawesome-svg-core/styles.css"; // import Font Awesome CSS
 import { config } from "@fortawesome/fontawesome-svg-core";
-import { loadMessages, locale } from "devextreme/localization";
+import dynamic from "next/dynamic";
+const loadMessages = dynamic(() => import("devextreme/localization").then((mod)=>mod.loadMessages), {
+  ssr: false,
+});
+const locale = dynamic(() => import("devextreme/localization").then((mod)=>mod.locale), {
+  ssr: false,
+});
 config.autoAddCss = false; 
 export default function RootLayout({ children }) {
   loadMessages({

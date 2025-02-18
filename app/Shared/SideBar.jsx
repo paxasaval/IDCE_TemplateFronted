@@ -66,6 +66,7 @@ const SideBar = () => {
       id: `Modules/${modulo.nombre}`,
       text: modulo.nombre,
       expanded: true,
+      imagen: modulo.imagen,
       items: moduloMenus.length === 0
         ? loadingMenus
           ? [{ id: "loading", text: "Cargando menús..." }]
@@ -91,11 +92,18 @@ const SideBar = () => {
         </Link>
       );
     }
+    if(item.imagen){
+      return (
+        <span className="flex gap-2 items-center">
+          <img className="w-4 h-4" src={`/${item.imagen}`} alt={item.text}/>
+          <span>{item.text}</span>
+        </span>
+      );
     return <span>{item.text}</span>;
   };
-
+  }
   return (
-    <div className="row-span-9 row-start-2 w-full bg-neutral-50 overflow-y-auto overflow-x-hidden">
+    <div className="row-span-11 row-start-2 w-full bg-neutral-50 overflow-y-auto overflow-x-hidden py-4">
       {loadingMenus ? (
         <Skeleton active paragraph={{ rows: 10 }} />
       ) : (
