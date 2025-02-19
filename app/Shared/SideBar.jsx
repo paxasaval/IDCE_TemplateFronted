@@ -103,7 +103,7 @@ const SideBar = () => {
   };
   }
   return (
-    <div className="row-span-11 row-start-2 w-full bg-neutral-50 overflow-y-auto overflow-x-hidden py-4">
+    <div className="h-full bg-neutral-100 overflow-y-auto overflow-x-hidden py-2">
       {loadingMenus ? (
         <Skeleton active paragraph={{ rows: 10 }} />
       ) : (

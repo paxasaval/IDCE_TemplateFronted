@@ -1,6 +1,12 @@
-.dx-dropdownbutton-action .dx-button-content {
+.header .dx-dropdownbutton-action .dx-button-content {
     color: white;
   }
-.dx-button-mode-text .dx-icon  {
+.header .dx-button-mode-text .dx-icon  {
     color: white;
+}
+.header-toolbar .dx-toolbar{
+  background-color: #337ab7;
+}
+.header .user .userActions .dx-toolbar{
+  background-color: #337ab7;
 }

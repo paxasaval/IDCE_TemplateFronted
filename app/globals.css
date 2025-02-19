@@ -22,3 +22,9 @@ body {
 .text-white {
   color: white;
 }
+.bg-blue-500 {
+  background-color: #3b82f6;
+}
+.bg-primary{
+  background-color: #337ab7;
+}

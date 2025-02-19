@@ -1,26 +1,48 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Space } from "antd";
 import { UserOutlined, BellOutlined, DownOutlined } from "@ant-design/icons";
 import { useSelectedUser } from "../Hooks/useSelectedUser";
 import { Badge } from "antd";
 import { useRouter } from "next/navigation";
-import "./styles/header.css"
+import "./styles/header.css";
 import dynamic from "next/dynamic";
-const DropDownButton = dynamic(() => import("devextreme-react/drop-down-button"), {
+
+const Toolbar = dynamic(() => import("devextreme-react/toolbar"), {
   ssr: false,
+  loading: () => <div className="w-10 h-10" />,
 });
-const Header = () => {
+const Item = dynamic(
+  () => import("devextreme-react/toolbar").then((mod) => mod.Item),
+  {
+    ssr: false,
+  }
+);
+const DropDownButton = dynamic(
+  () => import("devextreme-react/drop-down-button"),
+  {
+    ssr: false,
+  }
+);
+const Header = ({ onMenuClick }) => {
   const { selectedUser, clearUser } = useSelectedUser();
   const router = useRouter();
+  const { badgeTest, setBadgeTest } = useState(1);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    // Aseguramos que los componentes estén cargados
+    setIsLoaded(true);
+  }, []);
+
   const handleLogout = () => {
     clearUser();
     router.push("/");
   };
   const logAction = (e) => {
     const action = e.itemData.text;
-    console.log(e.itemData.text + " was clicked");//agregar controladores para cada accion
-    if(action==="Salir"){
+    console.log(e.itemData.text + " was clicked"); //agregar controladores para cada accion
+    if (action === "Salir") {
       handleLogout();
     }
   };
@@ -32,24 +54,58 @@ const Header = () => {
   ];
 
   return (
-    <div className="col-span-5 bg-blue-500 w-full h-2/10 flex justify-end px-2 py-3 ">
-      <div className="user flex items-center gap-2">
-        <div className="userActions"></div>
-        <Badge
-          size="small"
-          count={selectedUser ? selectedUser.empleadoID : 0}
-          icon={<UserOutlined />}
-        >
-          <Avatar
+    <div className="header bg-primary w-full flex items-center justify-between px-2 py-3 ">
+      <div className="header-toolbar flex items-center">
+        {isLoaded ? (
+          <Toolbar width={40} height={40}>
+            <Item
+              widget="dxButton"
+              location="before"
+              options={{
+                icon: "menu",
+                onClick: onMenuClick,
+                stylingMode: "text",
+                type: "normal",
+                width: 40,
+                height: 40,
+              }}
+            />
+          </Toolbar>
+        ) : (
+          <div className="w-10 h-10" />
+        )}
+      </div>
 
-            className="bg-blue-300"
-            icon={<BellOutlined />}
-          />
-        </Badge>
-        <DropDownButton 
-         elementAttr={{ style: "color: white !important;" }}
-        stylingMode="text"
-        type="normal"
+      <div className="user w-1/6 flex items-center justify-around gap-2">
+        <div className="relative userActions">
+          <Toolbar>
+            <Item
+              widget="dxButton"
+              location="before"
+              options={{
+                icon: "bell",
+                onClick: () => {
+                  console.log("Notificaciones");
+                },
+                stylingMode: "text",
+
+                type: "normal",
+                width: 40,
+                height: 40,
+              }}
+            />
+          </Toolbar>
+          {selectedUser?(
+            <div className="absolute top-1 left-4 w-4 h-4 flex justify-center items-center bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+              {selectedUser?.empleadoID}
+            </div>):
+            <div></div>
+            }
+        </div>
+        <DropDownButton
+          elementAttr={{ style: "color: white !important;" }}
+          stylingMode="text"
+          type="normal"
           text={
             selectedUser
               ? `${selectedUser.apellidos} ${selectedUser.nombres}`.toLowerCase()
@@ -58,9 +114,7 @@ const Header = () => {
           icon="user"
           items={actions}
           onItemClick={logAction}
-          
-        >
-        </DropDownButton>
+        ></DropDownButton>
       </div>
     </div>
   );

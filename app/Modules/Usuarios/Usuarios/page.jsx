@@ -57,12 +57,7 @@ const RequiredRule = dynamic(
   }
 );
 
-const Texts = dynamic(
-  () => import("devextreme-react/data-grid").then((mod) => mod.Texts),
-  {
-    ssr: false,
-  }
-);
+import { Texts } from "devextreme-react/data-grid";
 
 const UsersPage = () => {
   //Table data
@@ -160,7 +155,7 @@ const UsersPage = () => {
   };
 
   return (
-    <div className="container w-full h-full px-4 py-8">
+    <div className="container w-full h-full px-2 py-4">
       <h2 className="h2">Usuarios</h2>
       <div className="content w-full">
         <div className="containerTable w-full h-full py-2 px-2">
@@ -291,7 +286,7 @@ const UsersPage = () => {
                   addRow="Añadir Usuario"
                 ></Texts>
               </Editing>
-              <ColumnChooser enabled={true} />
+              <ColumnChooser title="Selector de columnas" enabled={true} />
             </DataGrid>
           )}
         </div>
