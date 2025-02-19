@@ -27,8 +27,8 @@
           telefono: empleado.telefono,
           email: empleado.email
         }));
-        console.log("RESPONSE DATA:", response.data);
-        console.log("RESPONSE EMPLOYED:", empleadosConId);
+        // console.log("RESPONSE DATA:", response.data);
+        // console.log("RESPONSE EMPLOYED:", empleadosConId);
         setEmpleados(empleadosConId);
 
       } catch (err) {

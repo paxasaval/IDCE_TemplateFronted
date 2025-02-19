@@ -25,7 +25,7 @@ const UsuariosPage = () => {
 
   return (
     <div style={{ padding: "5px", maxWidth: "900px", margin: "auto" }}>
-      <center><h2>Lista de Usuarios</h2></center>
+      <center><h2 style={{ fontSize: "2.5rem", fontWeight: "bold"}}>Lista de Usuarios</h2></center>
       <DataGrid
         dataSource={empleados}
         showBorders={true}

@@ -1,19 +1,27 @@
-import { Geist, Geist_Mono } from "next/font/google";
-import { AntdRegistry } from '@ant-design/nextjs-registry';
+"use client";
+import { useState } from "react";
 import Header from "../Shared/Header";
 import SideBar from "../Shared/SideBar";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
 
 export default function RootLayout({ children }) {
-    return (
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
-        <div>
-            <Header></Header>
-            <div className="flex">
-                <SideBar></SideBar>
-                <AntdRegistry>{children}</AntdRegistry>
-            </div>
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  return (
+    <div>
+      {/* Pasamos toggleSidebar como prop */}
+      <Header toggleSidebar={toggleSidebar} />
+
+      <div className="flex">
+        {sidebarOpen && <SideBar />}
+        <div className={`flex-1 transition-all duration-300 ${sidebarOpen ? "ml-64" : "ml-0"}`}>
+          <AntdRegistry>{children}</AntdRegistry>
         </div>
-
-        
-    );
+      </div>
+    </div>
+  );
 }

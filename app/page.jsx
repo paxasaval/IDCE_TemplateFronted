@@ -13,7 +13,8 @@ const Home= ()=> {
   return (
     <div>
       <br></br>
-      <center><h1>Bienvenido</h1></center>
+      <br></br>
+      <center><h1 className="text-4xl md:text-10xl font-bold mb-4">LOGIN</h1></center>
       <br></br>
       <LoginForm />     
     </div>
