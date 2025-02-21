@@ -114,6 +114,7 @@ const SideBar = () => {
           keyExpr="id"
           parentIdExpr="parentId"
           itemRender={templateItem}
+          ex
         />
       )}
     </div>

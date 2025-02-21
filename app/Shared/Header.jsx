@@ -27,7 +27,7 @@ const DropDownButton = dynamic(
 const Header = ({ onMenuClick }) => {
   const { selectedUser, clearUser } = useSelectedUser();
   const router = useRouter();
-  const { badgeTest, setBadgeTest } = useState(1);
+  const [ badgeTest, setBadgeTest ] = useState(1);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -39,11 +39,30 @@ const Header = ({ onMenuClick }) => {
     clearUser();
     router.push("/");
   };
+
+  const handleNotifications = () => {
+    router.push("/Modules/MiPerfil/Notificaciones");
+  };
+  const handleConfiguration = () => {
+    router.push("/Modules/MiPerfil/Configuracion");
+  };
+  const handleMessages = () => {
+    router.push("/Modules/MiPerfil/Mensajes");
+  };
   const logAction = (e) => {
     const action = e.itemData.text;
     console.log(e.itemData.text + " was clicked"); //agregar controladores para cada accion
     if (action === "Salir") {
       handleLogout();
+    }
+    if (action === "Perfil") {
+      handleConfiguration()
+    }
+    if (action === "Mensajes") {
+      handleMessages()
+    }
+    if (action === "Notificaciones") {
+      handleNotifications()
     }
   };
   const actions = [
@@ -84,9 +103,7 @@ const Header = ({ onMenuClick }) => {
               location="before"
               options={{
                 icon: "bell",
-                onClick: () => {
-                  console.log("Notificaciones");
-                },
+                onClick: handleNotifications,
                 stylingMode: "text",
 
                 type: "normal",

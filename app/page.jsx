@@ -57,7 +57,7 @@ const Login = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your Username!",
+                  message: "Porfavor ingrese su usuario!",
                 },
               ]}
             >
@@ -68,7 +68,7 @@ const Login = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your Password!",
+                  message: "Porfavor ingrese su contraseña!",
                 },
               ]}
             >
@@ -81,9 +81,9 @@ const Login = () => {
             <Form.Item>
               <Flex justify="space-between" align="center">
                 <Form.Item name="remember" valuePropName="checked" noStyle>
-                  <Checkbox>Remember me</Checkbox>
+                  <Checkbox>Recuerdame</Checkbox>
                 </Form.Item>
-                <a href="">Forgot password</a>
+                <a href="">Olvide mi contraseña</a>
               </Flex>
             </Form.Item>
 
@@ -94,9 +94,9 @@ const Login = () => {
                 htmlType="submit"
                 loading={loadingForm}
               >
-                Log in
+                Iniciar sesión
               </Button>
-              or <a href="">Register now!</a>
+              o <a href="">Registrarme</a>
             </Form.Item>
           </Form>
         </div>

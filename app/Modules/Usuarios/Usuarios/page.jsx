@@ -3,12 +3,8 @@ import React, { useState } from "react";
 import useUsers from "../../../Hooks/useUser";
 import formatter from "../../../utilities/formatter";
 import dynamic from "next/dynamic";
-const Validator = dynamic(() => import("devextreme-react/validator"), {
-  ssr: false,
-});
-const EmailRule = dynamic(() => import("devextreme-react/data-grid").then((mod) => mod.EmailRule), {
-  ssr: false,
-});
+
+
 const DataGrid = dynamic(() => import("devextreme-react/data-grid"), {
   ssr: false,
 });
@@ -25,20 +21,8 @@ const ColumnChooser = dynamic(
     ssr: false,
   }
 );
-const Form = dynamic(
-  () => import("devextreme-react/data-grid").then((mod) => mod.Form),
-  {
-    ssr: false,
-  }
-);
 const Lookup = dynamic(
   () => import("devextreme-react/data-grid").then((mod) => mod.Lookup),
-  {
-    ssr: false,
-  }
-);
-const Item = dynamic(
-  () => import("devextreme-react/form").then((mod) => mod.Item),
   {
     ssr: false,
   }
@@ -50,53 +34,12 @@ const Editing = dynamic(
   }
 );
 
-const RequiredRule = dynamic(
-  () => import("devextreme-react/data-grid").then((mod) => mod.RequiredRule),
-  {
-    ssr: false,
-  }
-);
+import { Item } from "devextreme-react/form";
 
-import { Texts } from "devextreme-react/data-grid";
+import { Texts,RequiredRule,Form,EmailRule } from "devextreme-react/data-grid";
 
 const UsersPage = () => {
-  //Table data
-  /* const columnsTable = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
-    {
-      title: "Nombre",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Dirección",
-      dataIndex: "address",
-      key: "address",
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-    },
-    {
-      title: "Acciones",
-      key: "actions",
-      render: (user) => (
-        <div className="actions flex gap-2">
-          <Button type="primary" icon={<EditOutlined />} onClick={() => showModal(user)}>
-            Editar
-          </Button>
-          <Button color="danger" variant="solid" icon={<DeleteOutlined />} onClick={() => showModal(user)}>
-            Eliminar
-          </Button>
-        </div>
-      ),
-    }
-  ]; */
+ 
   const { users, isLoading, error, fetchUsers } = useUsers();
 
   const positions = [
@@ -237,6 +180,7 @@ const UsersPage = () => {
               <Column
                 dataField="internalCode"
                 caption="Codigo Interno"
+                visible={false}
               ></Column>
               <Column
                 dataField="clientCode"
