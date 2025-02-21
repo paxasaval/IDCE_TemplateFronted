@@ -8,13 +8,11 @@ import { UserOutlined, LogoutOutlined, DownOutlined } from "@ant-design/icons";
 const Header = ({ toggleSidebar }) => {
   const router = useRouter();
 
-  // Función para manejar la salida
   const handleLogout = () => {
     console.log("Cerrando sesión...");
-    router.push("/"); // Redirige a la página de login
+    router.push("/");
   };
 
-  // Opciones del menú desplegable
   const items = [
     {
       key: "profile",
@@ -31,8 +29,7 @@ const Header = ({ toggleSidebar }) => {
   ];
 
   return (
-    <div className="bg-blue-500 w-full flex justify-between items-center p-2">
-      {/* Logo */}
+    <div className="col-span-7 row-span-2 flex justify-between items-center p-2" style={{ backgroundColor: "#337ab7" }}>
       <div className="logo flex items-center">
         <img
           src="/assets/images/icons/logo2.png"
@@ -41,7 +38,7 @@ const Header = ({ toggleSidebar }) => {
           onClick={() => router.push("/Modules")}
         />
 
-        {/* Botón para ocultar/mostrar el SideBar */}
+        {/* Botón para alternar el SideBar */}
         <button
           onClick={toggleSidebar}
           className="ml-4 text-white bg-transparent px-3 py-1 rounded hover:bg-gray-700 transition"
@@ -50,17 +47,20 @@ const Header = ({ toggleSidebar }) => {
         </button>
       </div>
 
-      {/* Usuario */}
-      <Dropdown menu={{ items }} trigger={["click"]}>
-        <div className="flex gap-2 cursor-pointer mr-6">
-          <Avatar style={{ backgroundColor: "#87d068" }} icon={<UserOutlined />} />
-          <div className="flex flex-col justify-center items-start">
-            <span>David Paca Cepeda</span>
-            <span className="text-xs">Administrador</span>
+      <div className="flex items-center mr-10">
+        <Dropdown menu={{ items }} trigger={["click"]}>
+          <div className="flex gap-2 cursor-pointer">
+            <Avatar style={{ backgroundColor: "#87d068" }} icon={<UserOutlined />} />
+            <div className="flex flex-col justify-center items-start">
+              <span className="text-white">David Paca Cepeda</span>
+              <span className="text-xs text-white">Administrador</span>
+            </div>
+            <div className="ml-4">
+              <DownOutlined className="text-sm text-white" />
+            </div>
           </div>
-          <DownOutlined className="text-sm text-black" />
-        </div>
-      </Dropdown>
+        </Dropdown>
+      </div>
     </div>
   );
 };

@@ -1,27 +1,27 @@
 "use client";
-import { useState } from "react";
-import Header from "../Shared/Header";
+import React, { useState } from "react";
+// import Header from "./Header";
+// import SideBar from "./SideBar";
 import SideBar from "../Shared/SideBar";
-import { AntdRegistry } from "@ant-design/nextjs-registry";
+import Header from "../Shared/Header";
 
-export default function RootLayout({ children }) {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+const Layout = ({ children }) => {
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
+    setIsSidebarCollapsed(!isSidebarCollapsed);
   };
 
   return (
-    <div>
-      {/* Pasamos toggleSidebar como prop */}
-      <Header toggleSidebar={toggleSidebar} />
-
-      <div className="flex">
-        {sidebarOpen && <SideBar />}
-        <div className={`flex-1 transition-all duration-300 ${sidebarOpen ? "ml-64" : "ml-0"}`}>
-          <AntdRegistry>{children}</AntdRegistry>
-        </div>
+    <div className="flex h-screen">
+      <SideBar isSidebarCollapsed={isSidebarCollapsed} />
+      <div className="flex-1 flex flex-col">
+        <Header toggleSidebar={toggleSidebar} />
+        <main className="flex-grow p-4">{children}</main>
       </div>
     </div>
   );
-}
+};
+
+export default Layout;

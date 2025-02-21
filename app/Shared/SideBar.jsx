@@ -1,24 +1,43 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { TreeView } from "devextreme-react/tree-view";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { ApiUrl } from "../Services/ApiRest";
 import useUser from "../Hooks/useUser";
-import "devextreme/dist/css/dx.light.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBriefcase,
-  faBuilding,
-  faIndent,
-  faList,
-  faListAlt,
-  faShield,
-  faUserSecret,
-  faUserPlus,
-} from "@fortawesome/free-solid-svg-icons";
+import dynamic from "next/dynamic";
+const TreeView = dynamic(() => import("devextreme-react/tree-view"), { ssr: false });
+// import TreeView from "devextreme-react/tree-view";
 
-const SideBar = () => {
+const SideBarClosed = ({ modulos, iconosModulo }) => {
+  return (
+    <div
+      className="bg-neutral-50 p-4 shadow-xl transition-all w-16"
+      style={{
+        borderRadius: "5px",
+        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+      }}
+    >
+      <ul className="space-y-4">
+        {modulos.map((modulo) => (
+          <li
+            key={modulo.nombre}
+            className="flex items-center cursor-pointer p-2 hover:bg-gray-200 rounded-md"
+          >
+            {iconosModulo[modulo.nombre] && (
+              <img
+                src={iconosModulo[modulo.nombre]}
+                alt={modulo.nombre}
+                className="h-4 w-4"
+              />
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+const SideBar = ({ isSidebarCollapsed }) => {
   const { empleados } = useUser();
   const router = useRouter();
   const [modulos, setModulos] = useState([]);
@@ -26,44 +45,28 @@ const SideBar = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // **Íconos para módulos**
+  // Íconos de módulos
   const iconosModulo = {
     Administracion: "/assets/images/modules/gear.png",
     Usuarios: "/assets/images/modules/user.png",
     Auditoria: "/assets/images/modules/search.png",
   };
 
-  // **Íconos para menús (FontAwesome)**
-  const iconosMenuFA = {
-    Compañía: faBuilding,
-    Productos: faBriefcase,
-    "Módulo-Menú": faIndent,
-    Catalogos: faIndent,
-    Seguridades: faList,
-    Oficinas: faShield,
-    Funcionarios: faUserSecret,
-    Perfiles: faUserSecret,
-    Usuarios: faUserPlus,
-    AuditoriaSistema: faListAlt,
-  };
-
-  // **Íconos para menús (Imágenes)**
-  const iconosMenu2 = {
+  // Íconos de menús
+  const iconosMenu = {
     Compañía: "/assets/images/menus/building.png",
     Productos: "/assets/images/menus/briefcase.png",
     "Módulo-Menú": "/assets/images/menus/phunt.png",
     Catalogos: "/assets/images/menus/indent.png",
     Seguridades: "/assets/images/menus/list.png",
     Oficinas: "/assets/images/menus/shield.png",
-
     Funcionarios: "/assets/images/menus/idcard.png",
     Perfiles: "/assets/images/menus/usersecret.png",
     Usuarios: "/assets/images/menus/userplus.png",
-    
     "Auditoria Sistema": "/assets/images/menus/listalt.png",
   };
 
-  // **Rutas personalizadas**
+  // Rutas personalizadas
   const getRutaPersonalizada = (moduloNombre, menuNombre) => {
     const rutasPersonalizadas = {
       Compañía: "/Modules/Administracion/Compania",
@@ -78,7 +81,10 @@ const SideBar = () => {
       Usuarios: "/Modules/Usuarios/Usuarios",
     };
 
-    return rutasPersonalizadas[menuNombre] || `/Modules/${moduloNombre}/${menuNombre.replace(/\s+/g, "")}`;
+    return (
+      rutasPersonalizadas[menuNombre] ||
+      `/Modules/${moduloNombre}/${menuNombre.replace(/\s+/g, "")}`
+    );
   };
 
   useEffect(() => {
@@ -86,34 +92,24 @@ const SideBar = () => {
       try {
         setLoading(true);
 
-        // **Obtener módulos**
+        // Obtener módulos
         const { data: modulosData } = await axios.get(`${ApiUrl}modulo`);
         if (!modulosData || modulosData.length === 0) {
           throw new Error("La respuesta de módulos está vacía o nula");
         }
         setModulos(modulosData);
 
-        // **Obtener menús para cada módulo**
-        // const menuRequests = modulosData.map(async (modulo) => {
-        //   const { data: menusData } = await axios.get(`${ApiUrl}menu/${modulo.moduloID}`);
-        //   return menusData.map((menu) => ({
-        //     id: `${modulo.moduloID}-${menu.menuID}`, // ID único
-        //     name: menu.captionMenu,
-        //     parentId: modulo.moduloID,
-        //     path: getRutaPersonalizada(modulo.nombre, menu.captionMenu),
-        //     iconFA: iconosMenuFA[menu.captionMenu] || null, // Icono de FontAwesome
-        //     iconImg: iconosMenu2[menu.captionMenu] || null, // Imagen
-        //   }));
-        // });
-
+        // Obtener menús para cada módulo
         const menuRequests = modulosData.map(async (modulo) => {
-          const { data: menusData } = await axios.get(`${ApiUrl}menu/${modulo.moduloID}`);
+          const { data: menusData } = await axios.get(
+            `${ApiUrl}menu/${modulo.moduloID}`
+          );
           return menusData.map((menu) => ({
             id: `${modulo.moduloID}-${menu.menuID}`, // ID único
             name: menu.captionMenu,
             parentId: modulo.moduloID,
             path: getRutaPersonalizada(modulo.nombre, menu.captionMenu),
-            icon: iconosMenu2[menu.captionMenu] || null // Asignar imagen del icono si existe
+            icon: iconosMenu[menu.captionMenu] || null, // Asignar imagen si existe
           }));
         });
 
@@ -126,6 +122,7 @@ const SideBar = () => {
         setLoading(false);
       }
     };
+
     fetchModulesAndMenus();
   }, []);
 
@@ -137,68 +134,36 @@ const SideBar = () => {
     }
   };
 
+  // Renderizar barra lateral colapsada si es necesario
+  if (isSidebarCollapsed)
+    return <SideBarClosed modulos={modulos} iconosModulo={iconosModulo} />;
+
   return (
-    <div className="bg-neutral-50 w-1/5 h-screen p-4 shadow-xl" style={{ borderRadius: "5px", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)" }}>
-      {loading ? (
-        <p>Cargando módulos...</p>
-      ) : (
-        // <TreeView
-        //   dataSource={[
-        //     ...modulos.map((m) => ({
-        //       id: m.moduloID,
-        //       name: m.nombre,
-        //       icon: iconosModulo[m.nombre] || null, // Imagen si existe
-        //     })),
-        //     ...menus,
-        //   ]}
-        //   dataStructure="plain"
-        //   keyExpr="id"
-        //   displayExpr="name"
-        //   parentIdExpr="parentId"
-        //   onItemClick={handleItemClick}
-        //   expandNodesRecursive={true}
-        //   itemRender={(item) => (
-        //     <div className="flex items-center gap-2">
-        //       {/* **Si hay un ícono de FontAwesome, se usa. Si no, se usa la imagen** */}
-        //       {item.iconImg ? (
-        //         <FontAwesomeIcon icon={item.iconImg} className="text-gray-700" />
-        //       ) : item.iconImg ? (
-        //         <img src={item.iconImg} alt={item.name} className="w-5 h-5" />
-        //       ) : null}
-        //       <span>{item.name}</span>
-        //     </div>
-        //   )}
-        // />
-
-
-        <TreeView
-          dataSource={[
-            ...modulos.map(m => ({
-              id: m.moduloID,
-              name: m.nombre,
-              icon: iconosModulo[m.nombre] || null, // Asignar imagen si existe
-            })),
-            ...menus
-          ]}
-          dataStructure="plain"
-          keyExpr="id"
-          displayExpr="name"
-          parentIdExpr="parentId"
-          onItemClick={handleItemClick}
-          expandNodesRecursive={true}
-          itemRender={(item) => (
-            <div className="flex items-center gap-2">
-              {item.icon ? (
-                <img src={item.icon} alt={item.name} className="w-4 h-4" />
-              ) : null}
-              <span>{item.name}</span>
-            </div>
-          )}
-        />
-
-
+    <TreeView
+      dataSource={[
+        ...modulos.map((m) => ({
+          id: m.moduloID,
+          name: m.nombre,
+          expanded : true,
+          icon: iconosModulo[m.nombre] || null, // Asignar imagen si existe
+        })),
+        ...menus,
+      ]}
+      dataStructure="plain"
+      keyExpr="id"
+      displayExpr="name"
+      parentIdExpr="parentId"
+      onItemClick={handleItemClick}
+      expandNodesRecursive={true}
+      itemRender={(item) => (
+        <div className="flex items-center gap-2">
+          {item.icon ? (
+            <img src={item.icon} alt={item.name} className="w-4 h-4" />
+          ) : null}
+          <span>{item.name}</span>
+        </div>
       )}
-    </div>
+    />
   );
 };
 
