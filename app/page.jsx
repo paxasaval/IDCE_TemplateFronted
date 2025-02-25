@@ -1,107 +1,118 @@
 "use client";
-import React, { use, useState } from "react";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Flex } from "antd";
+import React, { useCallback, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSelectedUser } from "./Hooks/useSelectedUser";
 import { useLogginUser } from "./Hooks/useLogginUser";
+import { SimpleItem, EmailRule, ButtonItem, RequiredRule } from "devextreme-react/form";
+import dynamic from "next/dynamic";
+const Form = dynamic(() => import("devextreme-react/form").then((mod) => mod.Form), { ssr: false });
 
 const Login = () => {
   const { selectUser } = useSelectedUser();
   const { user, isLoading, error } = useLogginUser();
 
   const [loadingForm, setLoadingForm] = useState(false);
+  const [formData, setFormData] = useState({
+    mail: "john@example.com",
+    password: "123456",
+  });
   const router = useRouter();
-  //submit login form
-  const onFinish = async (values) => {
-    console.log("Received values of form: ", values);
-    setLoadingForm(true);
-    if (isLoading) {
-      return; // No hace nada si el usuario está cargando
+
+  // Procesamiento del login (sin depender de formRef)
+  const processLogin = async () => {
+    if (isLoading || loadingForm) {
+      return;
     }
+
+    setLoadingForm(true);
+    console.log("Processing login with data:", formData);
+
     try {
       if (user) {
-        selectUser(user); // Estableces el usuario en el contexto
-        router.push("/Modules"); // Rediriges al usuario
+        selectUser(user);
+        router.push("/Modules");
       } else {
         console.error("No user found");
-        // Mostrar un mensaje de error si no se encontró el usuario
+        // Aquí podrías mostrar un mensaje de error
       }
     } catch (err) {
-      console.error("Error logging in:", err); // Manejas el error, si lo hay
+      console.error("Error logging in:", err);
     } finally {
-      setLoadingForm(false); // Detienes el estado de carga del formulario
+      setLoadingForm(false);
     }
   };
-  //end submit login form
- 
+
+  // Manejador para cuando cambia algún campo del formulario
+  const handleFieldDataChanged = (e) => {
+    const { dataField, value } = e.component.option();
+    setFormData(prev => ({
+      ...prev,
+      [dataField]: value
+    }));
+  };
+
+  // Manejador de submit sin depender de formRef
+  const handleFormSubmit = (e) => {
+    e.preventDefault && e.preventDefault(); // Previene la recarga si el evento lo permite
+    processLogin();
+    return false;
+  };
+
+  const getPasswordOptions = useCallback(
+    () => ({
+      mode: 'password',
+      valueChangeEvent: 'change',
+    }),
+    [],
+  );
+
+  // Opciones del botón de submit
+  const submitButtonOptions = {
+    text: "Iniciar sesión",
+    type: 'default',
+    useSubmitBehavior: false, // Cambiado a false para manejar el click manualmente
+    width: '100%',
+    horizontalAlignment: 'center',
+    onClick: () => processLogin(),
+  };
+
   return (
-    <div className="container w-full h-screen flex justify-center items-center">
-      <div className="cardForm flex flex-col gap-4 items-center border-neutral-200 border-2 border-solid py-8 px-4 rounded-md shadow-[16px_16px_16px_0px_#0000004d]">
+    <div className="container w-full h-screen flex justify-center items-center bg-gradient-to-r from-blue-800 to-indigo-900">
+      <div className="w-1/4 h-2/5 cardForm flex flex-col gap-6 items-center justify-center bg-neutral-100 border-neutral-200 border-2 border-solid py-8 px-4 rounded-md shadow-[16px_16px_16px_0px_#0000004d]">
         <div className="logo">
-          <img src="/assets/logo.png" alt="logo" />
+          <img src="/assets/logo.png" alt="logo"  />
         </div>
         <div className="contentForm">
-          <Form
-            name="login"
-            initialValues={{
-              remember: true,
-            }}
-            style={{
-              maxWidth: 360,
-            }}
-            onFinish={onFinish}
+          <Form 
+            formData={formData}
+            onFieldDataChanged={handleFieldDataChanged}
           >
-            <Form.Item
-              name="username"
-              rules={[
-                {
-                  required: true,
-                  message: "Porfavor ingrese su usuario!",
-                },
-              ]}
+            <SimpleItem 
+              dataField="mail" 
+              isRequired={true}
+              editorOptions={{
+                onValueChanged: (e) => setFormData(prev => ({ ...prev, mail: e.value }))
+              }}
             >
-              <Input prefix={<UserOutlined />} placeholder="Username" />
-            </Form.Item>
-            <Form.Item
-              name="password"
-              rules={[
-                {
-                  required: true,
-                  message: "Porfavor ingrese su contraseña!",
-                },
-              ]}
+              <EmailRule />
+            </SimpleItem>
+            <SimpleItem 
+              dataField="password" 
+              isRequired={true} 
+              editorType="dxTextBox"
+              editorOptions={{
+                ...getPasswordOptions(),
+                onValueChanged: (e) => setFormData(prev => ({ ...prev, password: e.value }))
+              }}
             >
-              <Input
-                prefix={<LockOutlined />}
-                type="password"
-                placeholder="Password"
-              />
-            </Form.Item>
-            <Form.Item>
-              <Flex justify="space-between" align="center">
-                <Form.Item name="remember" valuePropName="checked" noStyle>
-                  <Checkbox>Recuerdame</Checkbox>
-                </Form.Item>
-                <a href="">Olvide mi contraseña</a>
-              </Flex>
-            </Form.Item>
-
-            <Form.Item>
-              <Button
-                block
-                type="primary"
-                htmlType="submit"
-                loading={loadingForm}
-              >
-                Iniciar sesión
-              </Button>
-              o <a href="">Registrarme</a>
-            </Form.Item>
+              <RequiredRule message="Password is required" />
+            </SimpleItem>
+            <ButtonItem buttonOptions={submitButtonOptions} horizontalAlignment="center"/>
           </Form>
         </div>
       </div>
     </div>
   );
 };
+
 export default Login;

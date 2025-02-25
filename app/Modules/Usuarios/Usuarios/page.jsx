@@ -96,7 +96,23 @@ const UsersPage = () => {
   const onRowDeleted = (e) => {
     console.log("Borrando:", e.data);
   };
-
+  const onToolbarPreparing = (e) => {
+    e.toolbarOptions.items = e.toolbarOptions.items.filter(
+      (item) => item.name !== "addRowButton"
+    );
+    e.toolbarOptions.items.unshift({
+      location: "after",
+      widget: "dxButton",
+      options: {
+        icon: "plus",
+        text: "Añadir Usuario",
+        cssClass: "bg-blue-500 text-white",
+        onClick: () => {
+          e.component.addRow();
+        },
+      }});
+  };
+    
   return (
     <div className="container w-full h-full px-2 py-4">
       <h2 className="h2">Usuarios</h2>
@@ -113,23 +129,8 @@ const UsersPage = () => {
               dataSource={dataItems}
               onSaved={onRowUpdated}
               onRowRemoved={onRowDeleted}
-              onToolbarPreparing={(e) => {
-                e.toolbarOptions.items = e.toolbarOptions.items.filter(
-                  (item) => item.name !== "addRowButton"
-                );
-                e.toolbarOptions.items.unshift({
-                  location: "after",
-                  widget: "dxButton",
-                  options: {
-                    icon: "plus",
-                    text: "Añadir Usuario",
-                    cssClass: "bg-blue-500 text-white",
-                    onClick: () => {
-                      e.component.addRow();
-                    },
-                  },
-                });
-              }}
+              onToolbarPreparing={onToolbarPreparing}
+              
             >
               <Column dataField="id" caption="ID" visible={false}></Column>
               <Column

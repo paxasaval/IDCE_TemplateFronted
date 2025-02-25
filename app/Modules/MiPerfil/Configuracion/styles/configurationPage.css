@@ -1,0 +1,7 @@
+.dx-state-disabled .dx-button, .dx-state-disabled.dx-button {
+    background-color: #d9534f!important;
+}
+.dx-fileuploader-input-wrapper .dx-button{
+    background-color: #337ab7;
+    color: white;
+}

@@ -10,6 +10,8 @@ import useModulos from "../Hooks/useModulos";
 import menuService from "../Services/menuService";
 import formatter from "../utilities/formatter";
 import dynamic from "next/dynamic";
+import AspNetData from 'devextreme-aspnet-data-nojquery';
+
 const TreeView = dynamic(() => import("devextreme-react/tree-view"), { ssr: false });
 
 const iconMapping = {
@@ -56,7 +58,7 @@ const SideBar = () => {
     loadMenus();
   }, [modulos]);
 
-  if (isLoading) return <p className="row-span-9 row-start-2 w-full">Cargando modulos...</p>;
+  if (isLoading) return <Skeleton active paragraph={{ rows: 10 }} />;
   if (error) return <p className="row-span-9 row-start-2 w-full">{error}</p>;
 
   const modulosItems2 = modulos.map((modulo) => {
