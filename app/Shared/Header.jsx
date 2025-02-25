@@ -18,7 +18,7 @@ const Header = ({ toggleSidebar }) => {
       key: "profile",
       label: "Mi perfil",
       icon: <UserOutlined />,
-      onClick: () => router.push("/Modules/Profile"),
+      onClick: () => router.push("/Modules/ProfileAccount"),
     },
     {
       key: "logout",

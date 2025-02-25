@@ -11,7 +11,8 @@ const TreeView = dynamic(() => import("devextreme-react/tree-view"), { ssr: fals
 const SideBarClosed = ({ modulos, iconosModulo }) => {
   return (
     <div
-      className="bg-neutral-50 p-4 shadow-xl transition-all w-16"
+      // className="bg-neutral-50 p-4 shadow-xl transition-all w-16"
+      className="bg-neutral-50 p-4 shadow-xl border border-gray-300 rounded-lg transition-all w-16"
       style={{
         borderRadius: "5px",
         boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
@@ -139,31 +140,33 @@ const SideBar = ({ isSidebarCollapsed }) => {
     return <SideBarClosed modulos={modulos} iconosModulo={iconosModulo} />;
 
   return (
-    <TreeView
-      dataSource={[
-        ...modulos.map((m) => ({
-          id: m.moduloID,
-          name: m.nombre,
-          expanded : true,
-          icon: iconosModulo[m.nombre] || null, // Asignar imagen si existe
-        })),
-        ...menus,
-      ]}
-      dataStructure="plain"
-      keyExpr="id"
-      displayExpr="name"
-      parentIdExpr="parentId"
-      onItemClick={handleItemClick}
-      expandNodesRecursive={true}
-      itemRender={(item) => (
-        <div className="flex items-center gap-2">
-          {item.icon ? (
-            <img src={item.icon} alt={item.name} className="w-4 h-4" />
-          ) : null}
-          <span>{item.name}</span>
-        </div>
-      )}
-    />
+    <div className="bg-neutral-50 p-4 shadow-xl border border-gray-300 rounded-lg">
+      <TreeView
+        dataSource={[
+          ...modulos.map((m) => ({
+            id: m.moduloID,
+            name: m.nombre,
+            expanded: true,
+            icon: iconosModulo[m.nombre] || null, // Asignar imagen si existe
+          })),
+          ...menus,
+        ]}
+        dataStructure="plain"
+        keyExpr="id"
+        displayExpr="name"
+        parentIdExpr="parentId"
+        onItemClick={handleItemClick}
+        expandNodesRecursive={true}
+        itemRender={(item) => (
+          <div className="flex items-center gap-2">
+            {item.icon ? (
+              <img src={item.icon} alt={item.name} className="w-4 h-4" />
+            ) : null}
+            <span>{item.name}</span>
+          </div>
+        )}
+      />
+    </div>
   );
 };
 
